@@ -1,4 +1,5 @@
-(ns clojure.term.colors)
+(ns clojure.term.colors-helper
+  (:require [clojure.string :as string]))
 
 (defn- escape-code
   [i]
@@ -16,7 +17,7 @@
   (zipmap [:on-grey :on-red :on-green :on-yellow
            :on-blue :on-magenta :on-cyan :on-white]
           (map escape-code
-            (range 40 48))))
+               (range 40 48))))
 
 (def ^:dynamic *attributes*
   "attributes color map"
@@ -26,11 +27,6 @@
                          :blink, nil, :reverse-color, :concealed]
                         (map escape-code (range 1 9))))))
 
-(def ^:dynamic *reset* (escape-code 0))
-
-;; Bind to true to have the colorize functions not apply coloring to
-;; their arguments.
-(def ^:dynamic *disable-colors* nil)
 
 (defmacro define-color-function
   "define a function `fname' which wraps its arguments with
@@ -39,18 +35,23 @@
   (let [fname (symbol (name fname))
         args (symbol 'args)]
     `(defn ~fname [& ~args]
-       (if-not *disable-colors*
-         (str (clojure.string/join (map #(str ~color %) ~args)) ~*reset*)
+       (if-not clojure.term.colors/*disable-colors*
+         (str (string/join (map #(str ~color %) ~args)) clojure.term.colors/*reset*)
          (apply str ~args)))))
 
-(defn define-color-functions-from-map
+(defmacro define-color-functions-from-map
   "define functions from color maps."
   [colormap]
-  (eval `(do ~@(map (fn [[color escape-code]]
-                `(println ~color ~escape-code)
+  `(do ~@(map (fn [[color escape-code]]
                 `(define-color-function ~color ~escape-code))
-                    colormap))))
+              colormap)))
 
-(define-color-functions-from-map *colors*)
-(define-color-functions-from-map *highlights*)
-(define-color-functions-from-map *attributes*)
+(defmacro define-functions []
+  `(do (define-color-functions-from-map ~*colors*)
+       (define-color-functions-from-map ~*highlights*)
+       (define-color-functions-from-map ~*attributes*)))
+
+(defmacro export-symbols []
+  (let [function-keywords (keys (concat *colors* *highlights* *attributes*))
+        symbols (map (comp symbol name) function-keywords)]
+    (zipmap function-keywords symbols)))
