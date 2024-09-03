@@ -23,7 +23,7 @@
   "attributes color map"
   (into {}
         (filter (comp not nil? key)
-                (zipmap [:bold, :dark, nil, :underline,
+                (zipmap [:bold, :dark, :italic, :underline,
                          :blink, nil, :reverse-color, :concealed]
                         (map escape-code (range 1 9))))))
 
