@@ -17,21 +17,16 @@
   (zipmap [:on-grey :on-red :on-green :on-yellow
            :on-blue :on-magenta :on-cyan :on-white]
           (map escape-code
-            (range 40 48))))
+               (range 40 48))))
 
 (def ^:dynamic *attributes*
   "attributes color map"
   (into {}
         (filter (comp not nil? key)
-                (zipmap [:bold, :dark, nil, :underline,
+                (zipmap [:bold, :dark, :italic, :underline,
                          :blink, nil, :reverse-color, :concealed]
                         (map escape-code (range 1 9))))))
 
-(def ^:dynamic *reset* (escape-code 0))
-
-;; Bind to true to have the colorize functions not apply coloring to
-;; their arguments.
-(def ^:dynamic *disable-colors* nil)
 
 (defmacro define-color-function
   "define a function `fname' which wraps its arguments with
