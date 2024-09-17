@@ -1,15 +1,19 @@
 # clojure-term-colors
 
+This is a fork of original [trhura/clojure-term-colors](https://github.com/trhura/clojure-term-colors), now made work with Clojurescript running on nodejs. 
+The missing `:italic` is also added.
+
 A Clojure library for ASCII terminal color output, based on python
 termcolor package
 
 ![Screenshot](doc/info.png)
 
-## Leiningen
+## deps.edn
 
-__([via Clojars](https://clojars.org/clojure-term-colors))__
-
-[![Clojars Project](http://clojars.org/clojure-term-colors/latest-version.svg)]
+```clojure
+clojure-term-colors/clojure-term-colors {:git/url "git@github.com:imakira/clojure-term-colors.git"
+                                                 :git/sha "b6d90ed1fe95f005740ecdc7dbd3f8d1faa1f889"}
+```
 
 ## Usage
 
@@ -23,8 +27,14 @@ to disable colors temporarily._
 ```
 white, cyan, magenta, blue, yellow, green, red, grey, on-white,
 on-cyan, on-magenta, on-blue, on-yellow, on-green, on-red, on-grey,
-concealed, reverse-color, blink, underline, dark, bold
+concealed, reverse-color, blink, underline, dark, italic ,bold
 ```
+
+## Bonus Point
+
+You can even call it from javascript if for some reason you want to do it.
+![Calling From Js](./doc/calling_from_js.png)
+
 
 ## License
 
