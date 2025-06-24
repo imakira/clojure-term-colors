@@ -31,3 +31,7 @@ pom.xml.asc
 /out
 
 /TODO.org
+secrets.env.gpg
+.cpcache
+.clj-kondo
+.lsp

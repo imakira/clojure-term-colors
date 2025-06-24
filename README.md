@@ -11,8 +11,7 @@ termcolor package
 ## deps.edn
 
 ```clojure
-clojure-term-colors/clojure-term-colors {:git/url "git@github.com:imakira/clojure-term-colors.git"
-                                                 :git/sha "b6d90ed1fe95f005740ecdc7dbd3f8d1faa1f889"}
+net.coruscation/clojure-term-colors {:mvn/version "1.3.2"}
 ```
 
 ## Usage
